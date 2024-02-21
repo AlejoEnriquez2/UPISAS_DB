@@ -15,49 +15,40 @@ class TestStrategy(unittest.TestCase):
     """
 
     def setUp(self):
-        #print("(1). setUp !!!!!!!!!!!!!!!!!")
         self.exemplar = SWIM(auto_start=True)
         self._start_server_and_wait_until_is_up()
         self.strategy = EmptyStrategy(self.exemplar)
 
     def tearDown(self):
-        #print("(2). tearDown !!!!!!!!!!!!!!!!!")
         if self.exemplar and self.exemplar.exemplar_container:
             self.exemplar.stop_container()
 
     def test_get_adaptation_options_successfully(self):
-        #print("!!!!!!!!!!!!!!!!! 3. test_get_adaptation_options_successfully!!!!!!!!!!!!!!!!!")
         self.strategy.get_adaptation_options(with_validation=False)
         self.assertIsNotNone(self.strategy.knowledge.adaptation_options)
 
     def test_monitor_successfully(self):
-        #print("!!!!!!!!!!!!!!!!! 4. test_monitor_successfully !!!!!!!!!!!!!!!!!")
         successful = self.strategy.monitor(with_validation=False)
         self.assertTrue(successful)
         self.assertNotEqual(self.strategy.knowledge.monitored_data, dict())
 
     def test_execute_successfully(self):
-        #print("!!!!!!!!!!!!!!!!! 5. test_execute_successfully !!!!!!!!!!!!!!!!!")
         successful = self.strategy.execute({"server_number": 2, "dimmer_factor": 0.5}, with_validation=False)
         self.assertTrue(successful)
 
     def test_adaptation_options_schema_endpoint_reachable(self):
-        #print("!!!!!!!!!!!!!!!!! 6. test_adaptation_options_schema_endpoint_reachable !!!!!!!!!!!!!!!!!")
         self.strategy.get_adaptation_options_schema()
         self.assertIsNotNone(self.strategy.knowledge.adaptation_options_schema)
 
     def test_monitor_schema_endpoint_reachable(self):
-        #print("!!!!!!!!!!!!!!!!! 7. test_monitor_schema_endpoint_reachable !!!!!!!!!!!!!!!!!")
         self.strategy.get_monitor_schema()
         self.assertIsNotNone(self.strategy.knowledge.monitor_schema)
 
     def test_execute_schema_endpoint_reachable(self):
-        #print("!!!!!!!!!!!!!!!!! 8. test_execute_schema_endpoint_reachable !!!!!!!!!!!!!!!!!")
         self.strategy.get_execute_schema()
         self.assertIsNotNone(self.strategy.knowledge.execute_schema)
 
     def test_schema_of_adaptation_options(self):
-        #print("!!!!!!!!!!!!!!!!! 9. test_schema_of_adaptation_options !!!!!!!!!!!!!!!!!")
         self.strategy.get_adaptation_options_schema()
         with self.assertLogs() as cm:
             self.strategy.get_adaptation_options()
@@ -65,7 +56,6 @@ class TestStrategy(unittest.TestCase):
         self.assertIsNotNone(self.strategy.knowledge.adaptation_options)
 
     def test_schema_of_monitor(self):
-        #print("!!!!!!!!!!!!!!!!! 10. test_schema_of_monitor !!!!!!!!!!!!!!!!!")
         self.strategy.get_monitor_schema()
         with self.assertLogs() as cm:
             successful = self.strategy.monitor()
@@ -74,15 +64,13 @@ class TestStrategy(unittest.TestCase):
         self.assertNotEqual(self.strategy.knowledge.monitored_data, dict())
 
     def test_schema_of_execute(self):
-        #print("!!!!!!!!!!!!!!!!! 11. test_schema_of_execute !!!!!!!!!!!!!!!!!")
         self.strategy.get_execute_schema()
         with self.assertLogs() as cm:
             successful = self.strategy.execute({"server_number": 2, "dimmer_factor": 0.5})
             self.assertTrue("JSON object validated by JSON Schema" in ", ".join(cm.output))
         self.assertTrue(successful)
 
-    def _start_server_and_wait_until_is_up(self, base_endpoint="http://localhost:3000"):
-        #print("(12). _start_server_and_wait_until_is_up !!!!!!!!!!!!!!!!!")
+    def _start_server_and_wait_until_is_up(self, base_endpoint="http://localhost:3000"):        
         self.exemplar.start_run()
         while True:
             time.sleep(1)

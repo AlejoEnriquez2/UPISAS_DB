@@ -38,7 +38,6 @@ class EWS(Exemplar):
 
 
 
-#########################
 class FastAPI(Exemplar):
     """
     A class which encapsulates a self-adaptive exemplar run in a docker container.

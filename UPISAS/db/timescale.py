@@ -35,10 +35,10 @@ class TimeScaleDB():
         );
         """
 
-        if table_name == table_name:
+        if table_name == "exemplar":
             self.cur.execute(exemplar_query)
             self.conn.commit()
-        else: 
+        elif table_name == "run": 
             self.cur.execute(run_query)    
             self.conn.commit()
         
@@ -56,9 +56,11 @@ class TimeScaleDB():
         if result is None:
             self.cur.execute(f"INSERT INTO exemplar (name, monitor_schema, execute_schema, adaptation_options_schema) VALUES (%s, %s, %s, %s)", (json.dumps(content.name), json.dumps(content.monitor_schema), json.dumps(content.execute_schema), json.dumps(content.adaptation_options_schema)))
             self.conn.commit()
+            self.cur.execute("SELECT id FROM exemplar WHERE name = %s", (json.dumps(content.name),))
+            result = self.cur.fetchone()
         
         # Return status code 
-        return content
+        return result
     
     def add_run(self, content: RunDB):     
         self.cur.execute(f"INSERT INTO run (time, run_time, exemplar_id, monitor_data, analysed_data, adaptation_options, plan_data, execute_data) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (datetime.now().isoformat(), content.run_time, content.exemplar_id, json.dumps(content.monitor_data), json.dumps(content.analysed_data), json.dumps(content.adaptation_options), json.dumps(content.plan_data), json.dumps(content.execute_data)))

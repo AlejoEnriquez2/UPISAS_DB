@@ -29,8 +29,7 @@ class Strategy(ABC):
 
     def monitor(self, endpoint_suffix="monitor", with_validation=True):
         global monitor_knowledge_counter
-        monitor_knowledge_counter = monitor_knowledge_counter+1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! MONITOR !!!!!!!!!!!!", monitor_knowledge_counter)
+        monitor_knowledge_counter = monitor_knowledge_counter+1        
         fresh_data = self._perform_get_request(endpoint_suffix)
         print("[Monitor]\tgot fresh_data: " + str(fresh_data))
         if with_validation:
@@ -54,7 +53,6 @@ class Strategy(ABC):
             raise EndpointNotReachable
         global execute_counter
         execute_counter += 1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! EXECUTE !!!!!!!!!!!!", execute_counter)
         return True
 
     def get_adaptation_options(self, endpoint_suffix: "API Endpoint" = "adaptation_options", with_validation=True):
@@ -64,8 +62,7 @@ class Strategy(ABC):
         logging.info("adaptation_options set to: ")
         pp.pprint(self.knowledge.adaptation_options)
         global adaptation_options_counter 
-        adaptation_options_counter += 1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! ADAPTATION OPTIONS !!!!!!!!!!!!", adaptation_options_counter)
+        adaptation_options_counter += 1        
         
 
     def get_monitor_schema(self, endpoint_suffix = "monitor_schema"):
@@ -74,8 +71,7 @@ class Strategy(ABC):
         pp.pprint(self.knowledge.monitor_schema)
     
         global get_monitor_schema_counter
-        get_monitor_schema_counter += 1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! GET MONITOR SCHEMA !!!!!!!!!!!!", get_monitor_schema_counter)
+        get_monitor_schema_counter += 1        
 
     def get_execute_schema(self, endpoint_suffix = "execute_schema"):
         self.knowledge.execute_schema = self._perform_get_request(endpoint_suffix)
@@ -83,18 +79,15 @@ class Strategy(ABC):
         pp.pprint(self.knowledge.execute_schema)
         global get_execute_schema_counter
         get_execute_schema_counter += 1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! GET EXECUTE SCHEMA !!!!!!!!!!!!", get_execute_schema_counter)
 
     def get_adaptation_options_schema(self, endpoint_suffix: "API Endpoint" = "adaptation_options_schema"):
         self.knowledge.adaptation_options_schema = self._perform_get_request(endpoint_suffix)
         logging.info("adaptation_options_schema set to: ")
         pp.pprint(self.knowledge.adaptation_options_schema)
         global get_adaptation_options_schema_counter
-        get_adaptation_options_schema_counter += 1
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! GET ADAPTATION OPTIONS SCHEMA !!!!!!!!!!!!", get_adaptation_options_schema_counter)
+        get_adaptation_options_schema_counter += 1        
 
-    def _perform_get_request(self, endpoint_suffix: "API Endpoint"):
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!! GET REQUEST !!!!!!!!!!!!")
+    def _perform_get_request(self, endpoint_suffix: "API Endpoint"):        
         url = '/'.join([self.exemplar.base_endpoint, endpoint_suffix])
         response = get_response_for_get_request(url)
         if response.status_code == 404:

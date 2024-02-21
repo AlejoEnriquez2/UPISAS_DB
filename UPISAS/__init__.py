@@ -9,8 +9,7 @@ pull_image_tasks = {}
 """ python -m UPISAS.tests.your_exemplar.test_your_exemplar_interface """
 
 
-def show_progress(line, progress):
-    #print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 1.- show_progress $$$$$$$$$$$$$$$$$$$$$$$$$$")
+def show_progress(line, progress):    
     """ Show task progress (red for download, green for extract). Used when pulling images."""
     if line['status'] == 'Downloading':
         id = f'[red][Download {line["id"]}]'
@@ -26,7 +25,6 @@ def show_progress(line, progress):
 
 
 def get_response_for_get_request(url):
-    #print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 2.- get_response_for_get_request $$$$$$$$$$$$$$$$$$$$$$$$$$")
     try:
         logging.info("GET request to " + str(url))
         response = requests.get(url)
@@ -38,7 +36,6 @@ def get_response_for_get_request(url):
 
 
 def validate_schema(json_instance, json_schema):
-    #print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 3.- validate_schema $$$$$$$$$$$$$$$$$$$$$$$$$$")
     try:
         incomplete_warning_message = "No complete JSON Schema provided for validation"
         if json_schema and "type" in json_schema and "properties" in json_schema:

@@ -20,13 +20,10 @@ class Exemplar(ABC):
                  ):
         '''Create an instance of the Exemplar class'''
         self.base_endpoint = base_endpoint
-        image_name = docker_kwargs["image"]
-        #print("##################### EXEMPLAR NAME ##### --- ", docker_kwargs["name"])
-        #print("##################### IMAGE_NAME ######## --- ", docker_kwargs["image"])
-        #print("##################### PORTS ######## --- ", docker_kwargs["ports"])
+        image_name = docker_kwargs["image"]        
         image_owner = image_name.split("/")[0]
-        try:
-            docker_client = docker.from_env()            
+        try:            
+            docker_client = docker.from_env()
             try:
                 docker_client.images.get(image_name)
                 logging.info(f"image '{image_name}' found locally")
